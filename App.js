@@ -1,9 +1,9 @@
 import React from 'react';
-import {Home} from './screens';
+import MainStackNavigator from './navigation/StackNavigator';
 
 export default function App() {
   return (
-    <Home/>
+    <MainStackNavigator/>
   );
 }
 

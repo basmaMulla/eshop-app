@@ -4,23 +4,23 @@ import ScrollableTabView, { ScrollableTabBar } from "react-native-scrollable-tab
 import { ProductCard } from "../../components";
 
 const Categories = Array(5).fill(0).map((item, index) => ({
-    title: `Category #${index + 1}`,
+  title: `Category #${index + 1}`,
 }));
 
 const productData = Array(5).fill(0).map((item, index) => ({
-    title: `Product #${index + 1}`,
-    url: "https://i.pinimg.com/564x/c4/85/18/c48518a3605711c48db1f04039815702.jpg",
-    price: 89,
+  title: `Product #${index + 1}`,
+  url: "https://i.pinimg.com/564x/c4/85/18/c48518a3605711c48db1f04039815702.jpg",
+  price: 89,
 }));
 
 
-function Home() {
+function Home({navigation}) {
   return (
     <ScrollableTabView 
       renderTabBar={() => 
         <ScrollableTabBar activeTextColor="#118DF0" underlineStyle={{backgroundColor: '#118DF0', height: 2}} />
       }
-      style={{backgroundColor: 'white', paddingTop: 50}} initialPage={0} 
+      style={{backgroundColor: 'white'}} initialPage={0} 
     >
       {Categories.map((item, index) => 
         <FlatList
@@ -37,6 +37,7 @@ function Home() {
               imgSrc={item.url} 
               name={item.title} 
               price={item.price} 
+              onPress={() => navigation.navigate("ProductDetails")}
             />
           )}}
         />
