@@ -2,8 +2,11 @@ import React from "react";
 import { View, ScrollView, Image, Text, Dimensions, StyleSheet } from "react-native";
 import Swiper from "react-native-swiper";
 import { Button } from "../../components";
+import Store from '../../service/store';
 
-const ProductDetails = () => (
+function ProductDetails ({ route }) { 
+  const { item  } = route.params;
+  return (
   <ScrollView contentContainerStyle={{ paddingBottom: 40 }} bounces={false}>
     <Swiper
       containerStyle={styles.slider}
@@ -14,31 +17,30 @@ const ProductDetails = () => (
     >
       <Image
         style={styles.image}
-        source={{ uri:"https://i.pinimg.com/564x/8f/27/44/8f27446e4f69541cb465e50b93dae15e.jpg" }}
-      />
-      <Image
-        style={styles.image}
-        source={{ uri: "https://i.pinimg.com/564x/6e/90/41/6e90412772257e9d16b18f6449d0b141.jpg" }}
+        source={{ uri: item.image }}
       />
     </Swiper>
     <View style={styles.dataContainer}>
-      <Text style={styles.timeLocation}>Watches</Text>
+      <Text style={styles.timeLocation}>{item.category}</Text>
       <View style={styles.namePrice}>
-        <Text style={styles.namePriceText}>MVMTH Watch</Text>
-        <Text style={styles.namePriceText}>49 SAR</Text>
+        <Text style={styles.namePriceText}>{item.title}</Text>
+        <Text style={styles.namePriceText}>{item.price} SAR</Text>
       </View>
       <View style={styles.divider} />
       <Text style={styles.description}>
-        Selling my 2017 DJI Spark. Barely used, pretty new in condition and its the “Fly More Combo". zz
+        {item.description}
       </Text>
     </View>
     <View style={{alignItems: 'center'}}>
-      <Button transparent={false} color="#118DF0" style={{width: '70%'}}>
+      <Button 
+        transparent={false} color="#118DF0" style={{width: '70%'}} 
+        onPress={() => Store.addToCart(item)}
+      >
         <Text style={{color: 'white'}}>ADD TO CART</Text>
       </Button>
     </View>
   </ScrollView>
-);
+)};
 
 export default ProductDetails;
 
@@ -76,9 +78,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   namePriceText: {
-    fontSize: 24,
+    fontSize: 18,
     color: "#3B3B3B",
-    fontWeight: "600"
+    fontWeight: "600",
+    maxWidth: width/2 + 15
   },
   divider: {
     width: '100%',

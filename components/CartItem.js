@@ -1,12 +1,13 @@
 import React from "react";
 import { TouchableWithoutFeedback, StyleSheet, Dimensions, View, Text, Image, TouchableOpacity } from "react-native";
 import { Feather } from '@expo/vector-icons';
+import { observer } from "mobx-react"
 
-const CartItem = ({ imgSrc, name, price, onPress, onIncrement, onDecrement, removeItem }) => (
+const CartItem = observer(({ imgSrc, name, price, item, onPress, onIncrement, onDecrement, removeItem }) => 
     <View style={styles.container}>
         <TouchableWithoutFeedback style={[styles.imageContainer, styles.imgShadow]} onPress={onPress}>
             <Image
-                source={{ uri: imgSrc }}
+                source={{ uri: item.image }}
                 style={{
                     borderRadius: 15,
                     width: width / 2 - 40,
@@ -16,9 +17,8 @@ const CartItem = ({ imgSrc, name, price, onPress, onIncrement, onDecrement, remo
         </TouchableWithoutFeedback>
         <View style={styles.details}>
             <View style={{justifyContent: 'space-between', flex: 1, paddingBottom: 20}}>
-                <Text style={styles.nameTxt}>{name}</Text>
-                <Text style={styles.descriptionTxt}>description</Text>
-                <Text style={styles.priceTxt}>{`${price} SAR`}</Text>
+                <Text style={styles.nameTxt} numberOfLines={1}>{item.title}</Text>
+                <Text style={styles.priceTxt}>{`${item.price*item.quantity} SAR`}</Text>
             </View>
             <View style={styles.qtyContainer}>
                 <View style={[{flexDirection:'row', flex: 2}, styles.btnShadow]}>
@@ -26,7 +26,7 @@ const CartItem = ({ imgSrc, name, price, onPress, onIncrement, onDecrement, remo
                         <Text style={styles.opTxt}>-</Text>
                     </TouchableOpacity>
                     <View style={styles.qty}>
-                        <Text style={styles.qtyTxt}>01</Text>
+                        <Text style={styles.qtyTxt}>{item.quantity}</Text>
                     </View>
                     <TouchableOpacity style={styles.qtyBtnPLus} onPress={onIncrement}>
                         <Text style={styles.opTxt}>+</Text>

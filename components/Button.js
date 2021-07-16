@@ -1,8 +1,8 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
 
-const Button = ({ transparent = false, color = "#FFFFFF", children, onPress, style }) => (
-    <TouchableOpacity onPress={onPress} style={style}>
+const Button = ({ transparent = false, color = "#FFFFFF", children, onPress, style, disabled=false }) => (
+    <TouchableOpacity onPress={onPress} style={style} disabled={disabled}>
         <View style={[styles.container, {
             backgroundColor: transparent ? "transparent" : color,
             borderStyle: 'solid',

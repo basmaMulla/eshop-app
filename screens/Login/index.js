@@ -1,14 +1,35 @@
 import React, {useState} from "react";
-import { StyleSheet, View, Dimensions, Text, Image, KeyboardAvoidingView, StatusBar, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Dimensions, Text, Image, KeyboardAvoidingView, StatusBar, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Button, Input } from "../../components";
+import axios from "axios";
+import Store from '../../service/store';
 
 const { width, height } = Dimensions.get("screen");
 
 function Login({ navigation }) {
-    const [inputs, setInputs] = useState({
-        email: "",
-        password: ''
-    })
+    const [inputs, setInputs] = useState({ email: '', password: '' })
+    const [loading, setLoading] = useState(false);
+
+    const Login = () => {
+        setLoading(true); 
+        const data = {
+            username: inputs.email,
+            password: inputs.password
+        }
+        axios.post('https://fakestoreapi.com/auth/login', data).then(res => {
+            const response = res.data;
+            if(response.token){
+                Store.setIsLogin(true);
+                navigation.navigate("Home");
+            } else {
+                alert(response.msg);
+            }
+        }).catch(err => {
+            alert('An Error Ocurred!');
+        }).finally(() => {
+            setLoading(false);
+        });
+    }
 
     function onInputChange (text, name) {
         setInputs({ ...inputs, [name]: text });
@@ -41,10 +62,15 @@ function Login({ navigation }) {
                     />
                     <Button
                         transparent={false}
-                        onPress={() => navigation.navigate("Home")}
+                        onPress={Login}
                         style={{width: '70%'}}
+                        disabled={loading || !inputs.email || !inputs.password}
                     >
-                        <Text>Login</Text>
+                        {loading?
+                            <ActivityIndicator color={'black'} size="small" />
+                            :
+                            <Text>Login</Text>
+                        }
                     </Button>
                 </View>
             </KeyboardAvoidingView>

@@ -47,7 +47,16 @@ function MainStackNavigator() {
           })} 
         />
 
-        <Stack.Screen name='Cart' component={Cart}/>
+        <Stack.Screen 
+          name='Cart' component={Cart} 
+          options={({ navigation }) => ({
+            headerTintColor: "black",
+            headerRight: () => (
+              <HeaderButton onPress={() => navigation.navigate("Cart")} />
+            ),
+            headerRightContainerStyle: headerRightContainerStyle
+          })} 
+        />
 
         <Stack.Screen 
           name='OrderSuccess' component={OrderSuccess} 

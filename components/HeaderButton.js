@@ -1,12 +1,22 @@
 import React from "react";
 import { TouchableOpacity, View, Platform, StyleSheet, Text } from "react-native";
-import { MaterialCommunityIcons  } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Store from '../service/store';
+import { observer } from 'mobx-react';
 
-const HeaderButton = ({ color = "black", onPress, customStyle, cartButton = true }) => (
-    <TouchableOpacity onPress={onPress} style={[customStyle, styles.container]}>
+const Logout = () => {
+    Store.setIsLogin(false);
+    alert('Logged Out Successfully!');
+}
+
+const HeaderButton = observer(({ color = "black", onPress, customStyle, cartButton = true }) => 
+    <TouchableOpacity 
+        onPress={Store.isLogin && !cartButton? Logout : onPress} 
+        style={[customStyle, styles.container]}
+    >
         {cartButton?
         <View style={styles.nmuberOfCart}>
-            <Text style={{color: 'white', fontSize: 8, fontWeight:'600'}}>0</Text>
+            <Text style={{color: 'white', fontSize: 8, fontWeight:'600'}}>{Store.cartCount}</Text>
         </View>
         : null}
         <View
@@ -23,7 +33,7 @@ const HeaderButton = ({ color = "black", onPress, customStyle, cartButton = true
             />
             :
             <MaterialCommunityIcons 
-                name="account-box-outline" 
+                name={Store.isLogin? "logout-variant" : "account-box-outline"}
                 size={Platform.OS === "ios" ? 27 : 25}
                 color={color} 
             />
