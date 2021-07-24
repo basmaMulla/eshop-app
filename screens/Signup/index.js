@@ -27,7 +27,7 @@ function Signup({ navigation }) {
             } else {
                 alert('An Error Ocurred!');
             }
-        }).catch(err => {
+        }).catch(() => {
             alert('An Error Ocurred!');
         }).finally(() => {
             setLoading(false);

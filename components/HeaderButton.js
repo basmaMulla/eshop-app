@@ -42,6 +42,8 @@ const HeaderButton = observer(({ color = "black", onPress, customStyle, cartButt
     </TouchableOpacity>
 );
 
+export default HeaderButton;
+
 const styles = StyleSheet.create({
     container: {
         borderRadius: 5,
@@ -67,4 +69,3 @@ const styles = StyleSheet.create({
     },
 })
 
-export default HeaderButton;

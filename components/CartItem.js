@@ -3,16 +3,12 @@ import { TouchableWithoutFeedback, StyleSheet, Dimensions, View, Text, Image, To
 import { Feather } from '@expo/vector-icons';
 import { observer } from "mobx-react"
 
-const CartItem = observer(({ imgSrc, name, price, item, onPress, onIncrement, onDecrement, removeItem }) => 
+const CartItem = observer(({ item, onPress, onIncrement, onDecrement, removeItem }) => 
     <View style={styles.container}>
         <TouchableWithoutFeedback style={[styles.imageContainer, styles.imgShadow]} onPress={onPress}>
             <Image
                 source={{ uri: item.image }}
-                style={{
-                    borderRadius: 15,
-                    width: width / 2 - 40,
-                    height: 140,
-                }}
+                style={{ borderRadius: 15, width: width / 2 - 40, height: 140 }}
             />
         </TouchableWithoutFeedback>
         <View style={styles.details}>

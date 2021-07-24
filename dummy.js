@@ -1,5 +1,5 @@
-export const dummyProducts = {
-  'Furniture': [{
+export const dummyProducts = [
+  {
     category: "Furniture",
     description: "Seize the Moment. Meet Spark, a mini drone that features all of DJI's signature technologies, allowing you to seize the moment whenever you feel inspired.",
     id: 1,
@@ -88,5 +88,5 @@ export const dummyProducts = {
       "https://i.pinimg.com/564x/25/4f/70/254f70ef986a68fc209c33ab1c04245b.jpg",
     title: "Brick Columns",
     price: "29"
-  }]
-};
+  }
+];

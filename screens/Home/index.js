@@ -1,32 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, ActivityIndicator, View } from "react-native";
 import ScrollableTabView, { ScrollableTabBar } from "react-native-scrollable-tab-view";
 import { ProductCard } from "../../components";
-import { dummyProducts } from "../../dummy";
-import axios from 'axios';
 import Store from '../../service/store';
+import axios from 'axios';
+import { dummyProducts } from "../../dummy";
 
 function Home({navigation}) {
   const [products, setProducts] = useState(dummyProducts);
   const [categories, setCategories] = useState(['Furniture']);
   const [loading, setLoading] = useState(true);
- 
+
   const fetchData = async () => {
     try {
-      const result = await axios('https://fakestoreapi.com/products');
-      const response = result.data;
-      const categories = [...new Set(response.map(a => a.category))];
-      const productsData = response.reduce((acc, item) => {
-        if (!acc[item.category]) {
-          acc[item.category] = [];
-        }
-        acc[item.category].push(item);
-        return acc;
-      }, {})
+      const fetchCategories = await axios('https://fakestoreapi.com/products/categories');
+      const fetchProducts = await axios('https://fakestoreapi.com/products');
+      const categories = fetchCategories.data;
+      const products = fetchProducts.data;
       setCategories(prevState => [...prevState, ...categories]);
-      setProducts({...products, ...productsData});
+      setProducts(prevState => [...prevState, ...products]);
       // setCategories(categories);
-      // setProducts(productsData);
+      // setProducts(products);
     } catch( error ) {
       alert('An Error Ocurred!');
     } finally {
@@ -35,17 +29,17 @@ function Home({navigation}) {
   };
 
   useEffect(() => {
-    Store.getCachedCart()
+    Store.getCachedCart();
     fetchData();
   }, []);
-
+  
   if(loading) return (
     <View style={{flex: 1, backgroundColor: "white", justifyContent: 'center'}}>
       <ActivityIndicator color={'#118DF0'} size="small" />
     </View>
   );
 
-  return (
+  return ( 
     <ScrollableTabView 
       renderTabBar={() => 
         <ScrollableTabBar activeTextColor="#118DF0" underlineStyle={{backgroundColor: '#118DF0', height: 2}} />
@@ -57,7 +51,7 @@ function Home({navigation}) {
         <FlatList
           key={index}
           tabLabel={item}
-          data={products[item]}
+          data={products.filter((product => product.category === item))}
           style={{ paddingTop: 15, paddingHorizontal: 20 }}
           numColumns={2}
           columnWrapperStyle={{ justifyContent: "space-between" }}

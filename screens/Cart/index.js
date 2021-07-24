@@ -15,12 +15,12 @@ const Cart = observer(({ navigation }) => {
     axios.post('https://fakestoreapi.com/carts', {products}).then(res => {
       const response = res.data;
       if(response.id){
-        Store.clear();
+        Store.clearCart();
         navigation.navigate("OrderSuccess");
       } else {
         alert('An Error Ocurred!');
       }
-    }).catch(err => {
+    }).catch(() => {
       alert('An Error Ocurred!');
     }).finally(() => {
       setLoading(false);

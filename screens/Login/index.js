@@ -4,10 +4,8 @@ import { Button, Input } from "../../components";
 import axios from "axios";
 import Store from '../../service/store';
 
-const { width, height } = Dimensions.get("screen");
-
 function Login({ navigation }) {
-    const [inputs, setInputs] = useState({ email: '', password: '' })
+    const [inputs, setInputs] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
 
     const Login = () => {
@@ -24,7 +22,7 @@ function Login({ navigation }) {
             } else {
                 alert(response.msg);
             }
-        }).catch(err => {
+        }).catch(() => {
             alert('An Error Ocurred!');
         }).finally(() => {
             setLoading(false);
@@ -35,7 +33,7 @@ function Login({ navigation }) {
         setInputs({ ...inputs, [name]: text });
     };
 
-  return (
+  return ( 
     <View style={styles.container}>
         <Image
             source={require("../../assets/authBackground.jpg")}
@@ -87,7 +85,9 @@ function Login({ navigation }) {
   );
 }
 
+export default Login;
 
+const { width, height } = Dimensions.get("screen");
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
@@ -129,4 +129,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
